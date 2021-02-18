@@ -7,14 +7,14 @@ import io.reactors.common.concurrent.CacheTrie.CacheNode
 import io.reactors.test._
 import org.scalacheck.Prop.forAllNoShrink
 import org.scalacheck.Properties
-import org.scalatest.FunSuite
 import scala.collection._
 import scala.concurrent._
 import scala.concurrent.duration._
+import org.scalatest.funsuite.AnyFunSuite
 
 
 
-class CacheTrieTest extends FunSuite {
+class CacheTrieTest extends AnyFunSuite {
   test("insert many elements") {
     val trie = new CacheTrie[String, Integer]
     for (i <- 0 until 1000) {

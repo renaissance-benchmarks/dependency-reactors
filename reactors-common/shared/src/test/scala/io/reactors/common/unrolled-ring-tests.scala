@@ -8,12 +8,13 @@ import org.scalacheck._
 import org.scalacheck.Prop.forAllNoShrink
 import org.scalacheck.Gen.choose
 import org.scalatest._
-import org.scalatest.Matchers
 import scala.collection._
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 
 
-class UnrolledRingSpec extends FlatSpec with Matchers {
+class UnrolledRingSpec extends AnyFlatSpec with Matchers {
 
   "UnrolledRing" should "be empty" in {
     val ring = new UnrolledRing[String]
