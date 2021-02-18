@@ -7,10 +7,11 @@ import java.util
 import org.scalatest._
 import scala.collection._
 import scala.collection.JavaConverters._
+import org.scalatest.funsuite.AnyFunSuite
 
 
 
-class ProtocolRegressionSpec extends FunSuite {
+class ProtocolRegressionSpec extends AnyFunSuite {
   test("issue 64") {
     val seen = mutable.Buffer[Int]()
 

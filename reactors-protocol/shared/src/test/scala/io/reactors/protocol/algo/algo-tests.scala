@@ -10,10 +10,11 @@ import scala.collection._
 import scala.concurrent._
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
+import org.scalatest.funsuite.AnyFunSuite
 
 
 
-class AlgoSpec extends FunSuite {
+class AlgoSpec extends AnyFunSuite {
   test("reservoir sampling, no events") {
     val e = new Events.Emitter[Int]
     val sample = e.sampleReservoir(5)
