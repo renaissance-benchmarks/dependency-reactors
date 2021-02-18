@@ -160,9 +160,37 @@ lazy val reactorsContainer = crossProject(JVMPlatform)
   )
 
 
+// Produces reactorsProtocolJVM
+
+lazy val reactorsProtocol = crossProject(JVMPlatform)
+  .crossType(CrossType.Full)
+  .in(file("reactors-protocol"))
+  .settings(
+    projectSettings("-protocol") ++ Seq(
+      libraryDependencies ++= Seq(
+        "org.scalatest" %%% "scalatest" % scalaTestVersion % "test",
+        "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % "test"
+      ),
+      unmanagedSourceDirectories in Compile +=
+        baseDirectory.value.getParentFile / "shared" / "src" / "main" / "scala",
+      unmanagedSourceDirectories in Test +=
+        baseDirectory.value.getParentFile / "shared" / "src" / "test" / "scala"
+    ): _*
+  )
+  .jvmSettings(
+    jvmProjectSettings("-protocol"): _*
+  )
+  .dependsOn(
+    reactorsCommon % "compile->compile;test->test",
+    reactorsCore % "compile->compile;test->test",
+    reactorsContainer % "compile->compile;test->test"
+  )
+
+
 lazy val root = Project("root", file("."))
   .aggregate(
     reactorsCommon.jvm,
     reactorsCore.jvm,
     reactorsContainer.jvm,
+    reactorsProtocol.jvm
   )
