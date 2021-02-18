@@ -8,6 +8,8 @@ import org.scalacheck.Gen._
 import org.scalacheck.Prop._
 import io.reactors.test._
 import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 
 
@@ -35,7 +37,7 @@ class RFlatHashMapCheck extends Properties("RFlatHashMap") with ExtendedProperti
 }
 
 
-class RFlatHashMapSpec extends FlatSpec with Matchers {
+class RFlatHashMapSpec extends AnyFlatSpec with Matchers {
 
   "A RFlatHashMap" should "be empty" in {
     val table = new RFlatHashMap[Long, Int]

@@ -12,10 +12,11 @@ import io.reactors.algebra._
 import io.reactors.common.Matrix
 import io.reactors.test._
 import scala.collection._
+import org.scalatest.funsuite.AnyFunSuite
 
 
 
-class RQuadMatrixSpec extends FunSuite {
+class RQuadMatrixSpec extends AnyFunSuite {
   test("disallow clear after asMap") {
     val matrix = new RQuadMatrix[Long]
     matrix(0, 0) = 7

@@ -12,10 +12,11 @@ import io.reactors.algebra._
 import io.reactors.common.Matrix
 import io.reactors.test._
 import scala.collection._
+import org.scalatest.funsuite.AnyFunSuite
 
 
 
-class RHashMatrixSpec extends FunSuite {
+class RHashMatrixSpec extends AnyFunSuite {
   test("disallow clear after asMap") {
     val matrix = new RHashMatrix[Long]
     matrix(0, 0) = 7

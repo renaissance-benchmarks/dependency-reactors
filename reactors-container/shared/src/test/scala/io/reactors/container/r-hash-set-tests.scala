@@ -10,6 +10,8 @@ import org.scalacheck.Gen._
 import org.scalacheck.Prop._
 import org.scalatest._
 import scala.collection._
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.matchers.should.Matchers
 
 
 
@@ -45,7 +47,7 @@ class RHashSetCheck extends Properties("RHashSet") with ExtendedProperties {
 }
 
 
-class RHashSetSpec extends FunSuite with Matchers {
+class RHashSetSpec extends AnyFunSuite with Matchers {
 
   test("be empty") {
     val table = new RHashSet[Long]
