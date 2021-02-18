@@ -125,10 +125,10 @@ class ByteswapTree[K <: AnyRef: Ordering, V <: AnyRef] {
     if (existing) {
       newMask |= (count + 1L) << COUNT_SHIFT
       val removedBits = (removedCount + 1L) << 2
-      newMask |= ((1 << removedBits) - 1) << (60 - removedBits)
+      newMask |= ((1L << removedBits) - 1) << (60 - removedBits)
       val permutationBits = (1 << (liveCount << 2)) - 1
-      newMask |= permutationBits & ~(0xf << (index << 2))
-      newMask |= count << (index << 2)
+      newMask |= permutationBits & ~(0xfL << (index << 2))
+      newMask |= count.toLong << (index << 2)
     } else {
       newMask |= (count + 1L) << COUNT_SHIFT
       val removedBits = removedCount.toLong << 2
@@ -136,7 +136,7 @@ class ByteswapTree[K <: AnyRef: Ordering, V <: AnyRef] {
       val suffixLength = liveCount - index
       val suffixBits = ((1L << (suffixLength << 2)) - 1) << (index << 2)
       newMask |= (mask & suffixBits) << 4
-      newMask |= count << (index << 2)
+      newMask |= count.toLong << (index << 2)
       val prefixBits = ((1L << (index << 2)) - 1)
       newMask |= mask & prefixBits
     }
