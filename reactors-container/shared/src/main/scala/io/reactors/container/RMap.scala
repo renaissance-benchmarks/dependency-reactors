@@ -44,7 +44,7 @@ extends RContainer[K] {
       var seenInsert = false
       var seenRemove = false
       val sub = new Subscription.Composite(
-        removes.on(seenRemove = true),
+        removes.on({ seenRemove = true }),
         inserts.onReaction(new Observer[K] {
           def react(k: K, v: Any) = {
             key = k
@@ -76,7 +76,7 @@ extends RContainer[K] {
       var seenInsert = false
       var seenRemove = false
       val sub = new Subscription.Composite(
-        removes.on(seenRemove = true),
+        removes.on({ seenRemove = true }),
         inserts.onReaction(new Observer[K] {
           def react(k: K, v: Any) = {
             key = k
@@ -196,8 +196,8 @@ object RMap {
         var seenInsert = false
         var seenRemove = false
         val sub = new Subscription.Composite(
-          inserts.on(seenInsert = true),
-          removes.on(seenRemove = true)
+          inserts.on({ seenInsert = true }),
+          removes.on({ seenRemove = true })
         )
         val sampler = (obs: Observer[Unit]) => {
           val emit = seenInsert || seenRemove
