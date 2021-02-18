@@ -1,25 +1,138 @@
+import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
 
-// set environment variables to publish
-// in newer SBT versions, this apparently has to go to `build.sbt`
+val reactorsScalaVersion = "2.12.13"
+val scalaTestVersion = "3.1.4"
+val scalaCheckVersion = "1.13.4"
+val akkaVersion = "2.6.12"
+val scalaMeterVersion = "0.19"
 
-{
-  val publishUser = "SONATYPE_USER"
-  val publishPass = "SONATYPE_PASS"
-  val userPass = for {
-    user <- sys.env.get(publishUser)
-    pass <- sys.env.get(publishPass)
-  } yield (user, pass)
-  val publishCreds: Seq[Setting[_]] = Seq(userPass match {
-    case Some((user, pass)) =>
-      println(s"Username and password for Sonatype picked up: '$user', '${if (pass != "") "******" else ""}'")
-      credentials += Credentials("Sonatype Nexus Repository Manager", "oss.sonatype.org", user, pass)
-    case None =>
-      // prevent publishing
-      val errorMessage =
-        "Publishing to Sonatype is disabled since the \"" +
-        publishUser + "\" and/or \"" + publishPass + "\" environment variables are not set."
-      println(errorMessage)
-      publish <<= streams.map(_.log.info(errorMessage))
-  })
-  publishCreds
+def projectSettings(suffix: String) = {
+  Seq(
+    name := s"reactors$suffix",
+    organization := "io.reactors",
+    scalaVersion := reactorsScalaVersion,
+    logBuffered := false,
+    scalacOptions ++= Seq(
+      "-deprecation", "-feature"
+    ),
+    Compile / doc / scalacOptions ++= Seq(
+      "-implicits"
+    ),
+
+    Test / fork := true,
+    Test / parallelExecution := false,
+
+    Test / testOptions += Tests.Argument(
+      TestFrameworks.ScalaCheck,
+      "-minSuccessfulTests", "200",
+      "-workers", "1",
+      "-verbosity", "2"
+    ),
+
+    Test / publishArtifact := false,
+
+    Global / concurrentRestrictions += Tags.limit(Tags.Test, 1),
+    Global / cancelable := true,
+
+    resolvers ++= Seq(
+      "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
+      "Sonatype OSS Releases" at "https://oss.sonatype.org/content/repositories/releases",
+      "Typesafe Repository" at "https://repo.typesafe.com/typesafe/releases/"
+    ),
+
+    ThisBuild / parallelExecution := false
+  )
 }
+
+
+def jvmProjectSettings(suffix: String) =
+  Seq(
+    Test / javaOptions ++= Seq(
+      "-Xmx3G",
+      "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
+    ),
+  )
+
+
+def gitPropsContents(dir: File, baseDir: File): Seq[File] = {
+  def run(cmd: String*): String = scala.sys.process.Process(cmd, Some(baseDir)).!!
+  val branch = run("git", "rev-parse", "--abbrev-ref", "HEAD").trim
+  val commitTs = run("git", "--no-pager", "show", "-s", "--format=%ct", "HEAD")
+  val sha = run("git", "rev-parse", "HEAD").trim
+  val contents = s"""
+  {
+    "branch": "$branch",
+    "commit-timestamp": $commitTs,
+    "sha": "$sha"
+  }
+  """
+  val file = dir / "reactors-io" / ".gitprops"
+  IO.write(file, contents)
+  Seq(file)
+}
+
+
+// Produces reactorsCommonJVM
+
+lazy val reactorsCommon = crossProject(JVMPlatform)
+  .crossType(CrossType.Full)
+  .in(file("reactors-common"))
+  .settings(
+    projectSettings("-common") ++ Seq(
+      libraryDependencies ++= Seq(
+        "org.scalatest" %%% "scalatest" % scalaTestVersion % "test",
+        "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % "test"
+      ),
+      unmanagedSourceDirectories in Compile +=
+        baseDirectory.value.getParentFile / "shared" / "src" / "main" / "scala",
+      unmanagedSourceDirectories in Test +=
+        baseDirectory.value.getParentFile / "shared" / "src" / "test" / "scala"
+    ): _*
+  )
+  .jvmSettings(
+    jvmProjectSettings("-common") ++ Seq(
+      libraryDependencies ++= Seq(
+        "com.typesafe.akka" %% "akka-actor" % akkaVersion % "test",
+        "com.storm-enroute" %% "scalameter" % scalaMeterVersion % "test"
+      )
+    ): _*
+  )
+
+
+// Produces reactorsCoreJVM 
+
+lazy val reactorsCore = crossProject(JVMPlatform)
+  .crossType(CrossType.Full)
+  .in(file("reactors-core"))
+  .settings(
+    projectSettings("-core") ++ Seq(
+      Compile / resourceGenerators += Def.task {
+        gitPropsContents((Compile / resourceManaged).value, baseDirectory.value)
+      },
+      libraryDependencies ++= Seq(
+        "org.scalatest" %%% "scalatest" % scalaTestVersion % "test",
+        "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % "test"
+      ),
+      Compile / unmanagedSourceDirectories +=
+        baseDirectory.value.getParentFile / "shared" / "src" / "main" / "scala",
+      Test / unmanagedSourceDirectories +=
+        baseDirectory.value.getParentFile / "shared" / "src" / "test" / "scala"
+    ): _*
+  )
+  .jvmSettings(
+    jvmProjectSettings("-core") ++ Seq(
+      libraryDependencies ++= Seq(
+        "com.typesafe" % "config" % "1.2.1",
+        "com.typesafe.akka" %% "akka-actor" % akkaVersion % "test",
+        "com.storm-enroute" %% "scalameter" % scalaMeterVersion % "test"
+      )
+    ): _*
+  )
+  .dependsOn(reactorsCommon % "compile->compile;test->test")
+
+
+lazy val root = Project("root", file("."))
+  .aggregate(
+    reactorsCommon.jvm,
+    reactorsCore.jvm,
+  )
