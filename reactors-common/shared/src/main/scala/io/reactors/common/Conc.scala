@@ -113,6 +113,7 @@ object Conc {
         case Prepend(l, r) => find(r)
         case l <> r => find(r)
         case s: Single[T] @unchecked => s.x
+        case _ => ???
       }
       if (size == 0) throw new IllegalStateException("<empty>.head")
       if (right.size > 0) find(right)
@@ -130,6 +131,7 @@ object Conc {
         case Prepend(l, r) => find(l)
         case l <> r => find(l)
         case s: Single[T] @unchecked => s.x
+        case _ => ???
       }
       if (size == 0) throw new IllegalStateException("<empty>.last")
       if (left.size > 0) find(left)
@@ -155,6 +157,7 @@ object Conc {
             new Queue(ConcRope.unprependDirect(l), r)
           case s: Single[T] @unchecked =>
             new Queue(Empty, Empty)
+          case _ => ???
         }
       }
     }
@@ -1600,6 +1603,7 @@ object ConcUtils {
     case Empty => Tip(Zero)
     case leaf: Leaf[T] => Tip(One(leaf))
     case xs @ _ <> _ => unwrap(xs, log)
+    case _ => ???
   }
 
   case class Partial[T](rank: Int, bucket: List[Conc[T]], stack: List[Num[T]]) {
