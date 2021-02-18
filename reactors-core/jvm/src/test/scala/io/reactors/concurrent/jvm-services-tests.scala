@@ -18,10 +18,12 @@ import scala.collection._
 import scala.concurrent._
 import scala.concurrent.duration._
 import scala.util.Failure
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.matchers.should.Matchers
 
 
 
-class NetTest extends FunSuite with Matchers with BeforeAndAfterAll {
+class NetTest extends AnyFunSuite with Matchers with BeforeAndAfterAll {
 
   val system = ReactorSystem.default("TestSystem")
 

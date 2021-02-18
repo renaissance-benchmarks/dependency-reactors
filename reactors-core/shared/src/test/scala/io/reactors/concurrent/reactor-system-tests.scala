@@ -8,8 +8,6 @@ import io.reactors.test._
 import org.scalacheck._
 import org.scalacheck.Prop.forAllNoShrink
 import org.scalacheck.Gen.choose
-import org.scalatest.AsyncFunSuite
-import org.scalatest.Matchers
 import org.scalatest.concurrent.AsyncTimeLimitedTests
 import scala.annotation.unchecked
 import scala.collection._
@@ -20,6 +18,8 @@ import scala.concurrent.Promise
 import scala.concurrent.duration._
 import scala.util.Success
 import scala.util.control.ControlThrowable
+import org.scalatest.funsuite.AsyncFunSuite
+import org.scalatest.matchers.should.Matchers
 
 
 

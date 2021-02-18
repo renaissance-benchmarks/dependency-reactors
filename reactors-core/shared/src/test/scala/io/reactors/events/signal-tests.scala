@@ -9,10 +9,11 @@ import org.scalacheck.Gen.choose
 import org.scalatest._
 import io.reactors.test._
 import scala.collection._
+import org.scalatest.funsuite.AnyFunSuite
 
 
 
-class SignalSpec extends FunSuite {
+class SignalSpec extends AnyFunSuite {
 
   class TestEmitter[T] extends Events.Emitter[T] {
     var unsubscriptionCount = 0

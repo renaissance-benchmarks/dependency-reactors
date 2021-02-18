@@ -13,10 +13,12 @@ import io.reactors.common.Ref
 import io.reactors.test._
 import scala.collection._
 import scala.util._
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.matchers.should.Matchers
 
 
 
-class EventsSpec extends FunSuite {
+class EventsSpec extends AnyFunSuite {
 
   class TestEmitter[T] extends Events.Emitter[T] {
     var unsubscriptionCount = 0
@@ -1473,7 +1475,7 @@ class EventsSpec extends FunSuite {
 }
 
 
-class RCellSpec extends FunSuite with Matchers {
+class RCellSpec extends AnyFunSuite with Matchers {
 
   class ReactiveTest {
     val x = RCell(0)
