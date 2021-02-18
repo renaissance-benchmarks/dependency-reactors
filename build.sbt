@@ -13,7 +13,7 @@ def projectSettings(suffix: String) = {
     scalaVersion := reactorsScalaVersion,
     logBuffered := false,
     scalacOptions ++= Seq(
-      "-deprecation", "-feature"
+      "-deprecation", "-feature", "-no-specialization"
     ),
     Compile / doc / scalacOptions ++= Seq(
       "-implicits"
