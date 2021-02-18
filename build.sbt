@@ -131,8 +131,38 @@ lazy val reactorsCore = crossProject(JVMPlatform)
   .dependsOn(reactorsCommon % "compile->compile;test->test")
 
 
+// Produces reactorsContainerJVM
+
+lazy val reactorsContainer = crossProject(JVMPlatform)
+  .crossType(CrossType.Full)
+  .in(file("reactors-container"))
+  .settings(
+    projectSettings("-container") ++ Seq(
+      libraryDependencies ++= Seq(
+        "org.scalatest" %%% "scalatest" % scalaTestVersion % "test",
+        "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % "test"
+      ),
+      unmanagedSourceDirectories in Compile +=
+        baseDirectory.value.getParentFile / "shared" / "src" / "main" / "scala",
+      unmanagedSourceDirectories in Test +=
+        baseDirectory.value.getParentFile / "shared" / "src" / "test" / "scala"
+    ): _*
+  )
+  .jvmSettings(
+    jvmProjectSettings("-container") ++ Seq(
+      libraryDependencies ++= Seq(
+        "com.storm-enroute" %% "scalameter" % scalaMeterVersion % "test"
+      )
+    ): _*
+  )
+  .dependsOn(
+    reactorsCore % "compile->compile;test->test"
+  )
+
+
 lazy val root = Project("root", file("."))
   .aggregate(
     reactorsCommon.jvm,
     reactorsCore.jvm,
+    reactorsContainer.jvm,
   )
