@@ -63,7 +63,7 @@ class SignalSpec extends FunSuite {
     val e1 = new Events.Emitter[Int]
     val zip = (e0.toSignal(0) zip e1.toSignal(0))(_ + _)
     zip.onEvent(buffer += _)
-    zip.onDone(done = true)
+    zip.onDone({ done = true })
 
     e0.react(3)
     assert(buffer == Seq(0, 3))
@@ -281,7 +281,7 @@ class SignalSpec extends FunSuite {
       ss.find(s => s().isUpper).map(_()).getOrElse('?')
     }
     var done = false
-    zipped.onDone(done = true)
+    zipped.onDone({ done = true })
     assert(zipped() == '?')
     e2.react('f')
     assert(zipped() == '?')
