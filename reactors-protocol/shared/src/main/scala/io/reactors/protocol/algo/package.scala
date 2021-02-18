@@ -77,6 +77,6 @@ package object algo {
     }
   }
 
-  implicit def sampling[@spec(Int, Long, Double) T](events: Events[T]) =
+  implicit def sampling[@spec(Int, Long, Double) T](events: Events[T]): EventsSamplingOps[T] =
     new EventsSamplingOps(events)
 }
