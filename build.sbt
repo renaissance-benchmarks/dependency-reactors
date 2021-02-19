@@ -5,7 +5,7 @@ val scalaTestVersion = "3.1.4"
 val scalaCheckVersion = "1.13.4"
 val akkaVersion = "2.6.12"
 val scalaMeterVersion = "0.19"
-val json4sJacksonVersion = "3.4.2"
+val json4sJacksonVersion = "3.5.5"
 
 // BrowserTest configuration is meant for browser-based tests.
 lazy val BrowserTest = config("browser") extend (Test)
