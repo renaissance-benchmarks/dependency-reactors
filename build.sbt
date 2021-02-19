@@ -7,6 +7,14 @@ val akkaVersion = "2.6.12"
 val scalaMeterVersion = "0.19"
 val json4sJacksonVersion = "3.4.2"
 
+def scalaCheckArgument() =
+  Tests.Argument(
+      TestFrameworks.ScalaCheck,
+      "-minSuccessfulTests", "200",
+      "-workers", "1",
+      "-verbosity", "2"
+  )
+
 def projectSettings(suffix: String) = {
   Seq(
     name := s"reactors$suffix",
@@ -22,14 +30,7 @@ def projectSettings(suffix: String) = {
 
     Test / fork := true,
     Test / parallelExecution := false,
-
-    Test / testOptions += Tests.Argument(
-      TestFrameworks.ScalaCheck,
-      "-minSuccessfulTests", "200",
-      "-workers", "1",
-      "-verbosity", "2"
-    ),
-
+    Test / testOptions += scalaCheckArgument(),
     Test / publishArtifact := false,
 
     Global / concurrentRestrictions += Tags.limit(Tags.Test, 1),
