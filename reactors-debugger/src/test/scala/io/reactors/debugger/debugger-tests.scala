@@ -10,10 +10,11 @@ import org.openqa.selenium.interactions._
 import org.openqa.selenium.support.ui._
 import org.scalatest._
 import scala.collection.JavaConverters._
+import org.scalatest.funsuite.AnyFunSuite
 
 
 
-class DebuggerTest extends FunSuite {
+class DebuggerTest extends AnyFunSuite {
   test("test basic debugger scenarios") {
     runXvfbTest("io.reactors.debugger.DebuggerTest", Some("../target/videos"))
   }
