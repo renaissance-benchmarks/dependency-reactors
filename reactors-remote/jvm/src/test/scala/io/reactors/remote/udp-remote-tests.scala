@@ -6,15 +6,15 @@ package remote
 import java.io._
 import java.net._
 import java.nio._
-import org.scalatest.FunSuite
-import org.scalatest.Matchers
 import scala.concurrent.Await
 import scala.concurrent.Promise
 import scala.concurrent.duration._
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.matchers.should.Matchers
 
 
 
-class UdpRemoteTest extends FunSuite with Matchers {
+class UdpRemoteTest extends AnyFunSuite with Matchers {
 
   test("UDP transport should send events correctly") {
     // start server
