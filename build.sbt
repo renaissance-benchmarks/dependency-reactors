@@ -6,6 +6,7 @@ val scalaCheckVersion = "1.13.4"
 val akkaVersion = "2.6.12"
 val scalaMeterVersion = "0.19"
 val json4sJacksonVersion = "3.5.5"
+val rapidoidVersion = "5.3.5"
 
 // BrowserTest configuration is meant for browser-based tests.
 lazy val BrowserTest = config("browser") extend (Test)
@@ -258,7 +259,7 @@ lazy val reactorsHttp = project
           "org.scalatest" %%% "scalatest" % scalaTestVersion % "test",
           "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % "test",
           "org.scala-lang" % "scala-compiler" % scalaVersion.value,
-          "org.rapidoid" % "rapidoid-http-server" % "5.3.5",
+          "org.rapidoid" % "rapidoid-http-server" % rapidoidVersion,
           "commons-io" % "commons-io" % "2.4",
           "org.apache.commons" % "commons-lang3" % "3.6",
           "org.scala-lang.platform" %% "scalajson" % "1.0.0-M4",
@@ -295,8 +296,8 @@ lazy val reactorsDebugger = project
           "org.scalatest" %%% "scalatest" % scalaTestVersion % "test",
           "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % "test",
           "org.scala-lang" % "scala-compiler" % scalaVersion.value,
-          "org.rapidoid" % "rapidoid-http-server" % "5.1.9",
-          "org.rapidoid" % "rapidoid-gui" % "5.1.9",
+          "org.rapidoid" % "rapidoid-http-server" % rapidoidVersion,
+          "org.rapidoid" % "rapidoid-gui" % rapidoidVersion,
           "com.github.spullara.mustache.java" % "compiler" % "0.9.2",
           "commons-io" % "commons-io" % "2.4",
           "org.apache.commons" % "commons-lang3" % "3.6",
