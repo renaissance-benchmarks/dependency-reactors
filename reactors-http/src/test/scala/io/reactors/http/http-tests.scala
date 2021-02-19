@@ -11,10 +11,11 @@ import org.openqa.selenium.interactions._
 import org.openqa.selenium.support.ui._
 import org.scalatest._
 import scala.collection.JavaConverters._
+import org.scalatest.funsuite.AnyFunSuite
 
 
 
-class HttpTest extends FunSuite {
+class HttpTest extends AnyFunSuite {
   test("test basic http scenarios") {
     runXvfbTest("io.reactors.http.HttpTest", Some("../target/videos"))
   }
