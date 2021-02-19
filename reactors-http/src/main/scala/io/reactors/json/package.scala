@@ -130,6 +130,7 @@ package object json {
         case org.json4s.JObject(xs) =>
           val fields = for ((k, v) <- xs) yield (k, convert(v))
           JObject(fields.toMap)
+        case _ => ???
       }
       convert(jackson)
     }
