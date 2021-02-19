@@ -266,7 +266,11 @@ lazy val reactorsHttp = project
           "org.seleniumhq.selenium" % "selenium-java" % "2.53.1" % "test",
           "org.seleniumhq.selenium" % "selenium-chrome-driver" % "2.53.1" % "test"
         )
-      }
+      },
+
+      // Disable browser-based tests in normal testing.
+      Test / testOptions := Seq(Tests.Filter(_ => false)),
+      BrowserTest / testOptions := Seq(scalaCheckArgument()),
     ): _*
   )
   .settings(
@@ -299,7 +303,11 @@ lazy val reactorsDebugger = project
           "org.seleniumhq.selenium" % "selenium-java" % "2.53.1" % "test",
           "org.seleniumhq.selenium" % "selenium-chrome-driver" % "2.53.1" % "test"
         )
-      }
+      },
+
+      // Disable browser-based tests in normal testing.
+      Test / testOptions := Seq(Tests.Filter(_ => false)),
+      BrowserTest / testOptions := Seq(scalaCheckArgument()),
     ): _*
   )
   .settings(
