@@ -272,6 +272,38 @@ lazy val reactorsHttp = project
   )
 
 
+// JVM-only project reactorsDebugger
+
+lazy val reactorsDebugger = project
+  .in(file("reactors-debugger"))
+  .settings(
+    projectSettings("-debugger") ++ Seq(
+      libraryDependencies ++= {
+        Seq(
+          "org.scalatest" %%% "scalatest" % scalaTestVersion % "test",
+          "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % "test",
+          "org.scala-lang" % "scala-compiler" % scalaVersion.value,
+          "org.rapidoid" % "rapidoid-http-server" % "5.1.9",
+          "org.rapidoid" % "rapidoid-gui" % "5.1.9",
+          "com.github.spullara.mustache.java" % "compiler" % "0.9.2",
+          "commons-io" % "commons-io" % "2.4",
+          "org.apache.commons" % "commons-lang3" % "3.6",
+          "org.seleniumhq.selenium" % "selenium-java" % "2.53.1" % "test",
+          "org.seleniumhq.selenium" % "selenium-chrome-driver" % "2.53.1" % "test"
+        )
+      }
+    ): _*
+  )
+  .settings(
+    jvmProjectSettings("-debugger"): _*
+  )
+  .dependsOn(
+    reactorsCore.jvm % "compile->compile;test->test",
+    reactorsProtocol.jvm % "compile->compile;test->test",
+    reactorsHttp % "compile->compile;test->test"
+  )
+
+
 lazy val root = Project("root", file("."))
   .aggregate(
     reactorsCommon.jvm,
@@ -281,4 +313,5 @@ lazy val root = Project("root", file("."))
     reactorsRemote.jvm,
     reactorsExtra,
     reactorsHttp,
+    reactorsDebugger,
   )
