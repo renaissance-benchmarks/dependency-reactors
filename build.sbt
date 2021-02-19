@@ -5,6 +5,7 @@ val scalaTestVersion = "3.1.4"
 val scalaCheckVersion = "1.13.4"
 val akkaVersion = "2.6.12"
 val scalaMeterVersion = "0.19"
+val json4sJacksonVersion = "3.4.2"
 
 def projectSettings(suffix: String) = {
   Seq(
@@ -240,6 +241,37 @@ lazy val reactorsExtra = project
   )
 
 
+// JVM-only project reactorsHttp
+
+lazy val reactorsHttp = project
+  .in(file("reactors-http"))
+  .settings(
+    projectSettings("-http") ++ Seq(
+      libraryDependencies ++= {
+        Seq(
+          "org.scalatest" %%% "scalatest" % scalaTestVersion % "test",
+          "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % "test",
+          "org.scala-lang" % "scala-compiler" % scalaVersion.value,
+          "org.rapidoid" % "rapidoid-http-server" % "5.3.5",
+          "commons-io" % "commons-io" % "2.4",
+          "org.apache.commons" % "commons-lang3" % "3.6",
+          "org.scala-lang.platform" %% "scalajson" % "1.0.0-M4",
+          "org.json4s" %% "json4s-jackson" % json4sJacksonVersion,
+          "org.seleniumhq.selenium" % "selenium-java" % "2.53.1" % "test",
+          "org.seleniumhq.selenium" % "selenium-chrome-driver" % "2.53.1" % "test"
+        )
+      }
+    ): _*
+  )
+  .settings(
+    jvmProjectSettings("-http"): _*
+  )
+  .dependsOn(
+    reactorsCore.jvm % "compile->compile;test->test",
+    reactorsProtocol.jvm % "compile->compile;test->test"
+  )
+
+
 lazy val root = Project("root", file("."))
   .aggregate(
     reactorsCommon.jvm,
@@ -248,4 +280,5 @@ lazy val root = Project("root", file("."))
     reactorsProtocol.jvm,
     reactorsRemote.jvm,
     reactorsExtra,
+    reactorsHttp,
   )
