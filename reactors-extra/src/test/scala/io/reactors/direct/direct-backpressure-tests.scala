@@ -10,10 +10,12 @@ import scala.collection._
 import scala.concurrent.Await
 import scala.concurrent.Promise
 import scala.concurrent.duration._
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.matchers.should.Matchers
 
 
 
-class DirectBackpressureTest extends FunSuite with Matchers with BeforeAndAfterAll {
+class DirectBackpressureTest extends AnyFunSuite with Matchers with BeforeAndAfterAll {
   val system = ReactorSystem.default("test-system")
 
   // test("start backpressure and send messages") {
