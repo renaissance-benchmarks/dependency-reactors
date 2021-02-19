@@ -7,7 +7,7 @@ import io.reactors.common.Uid
 import io.reactors.concurrent.Frame
 import io.reactors.json._
 import java.util.TimerTask
-import org.apache.commons.lang3.StringEscapeUtils
+import org.apache.commons.text.StringEscapeUtils
 import scala.collection._
 import scala.concurrent.Future
 import scala.concurrent.Promise
