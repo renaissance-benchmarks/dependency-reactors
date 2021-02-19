@@ -321,6 +321,47 @@ lazy val reactorsDebugger = project
   )
 
 
+// Produces reactorsJVM
+
+lazy val reactors = crossProject(JVMPlatform)
+  .crossType(CrossType.Full)
+  .in(file("reactors"))
+  .settings(
+    projectSettings("") ++ Seq(
+      libraryDependencies ++= Seq(
+        "org.scalatest" %%% "scalatest" % scalaTestVersion % "test",
+        "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % "test"
+      ),
+      unmanagedSourceDirectories in Compile +=
+        baseDirectory.value.getParentFile / "shared" / "src" / "main" / "scala",
+      unmanagedSourceDirectories in Test +=
+        baseDirectory.value.getParentFile / "shared" / "src" / "test" / "scala",
+    ): _*
+  )
+  .jvmSettings(
+    jvmProjectSettings("") ++ Seq(
+      libraryDependencies ++= Seq(
+        "com.novocode" % "junit-interface" % "0.11" % "test",
+        "junit" % "junit" % "4.12" % "test"
+      )
+    ): _*
+  )
+  .jvmConfigure(
+    _.dependsOn(
+      reactorsHttp % "compile->compile;test->test",
+      reactorsDebugger % "compile->compile;test->test",
+      reactorsExtra % "compile->compile;test->test"
+    )
+  )
+  .dependsOn(
+    reactorsCommon % "compile->compile;test->test",
+    reactorsCore % "compile->compile;test->test",
+    reactorsContainer % "compile->compile;test->test",
+    reactorsRemote % "compile->compile;test->test",
+    reactorsProtocol % "compile->compile;test->test"
+  )
+
+
 lazy val root = Project("root", file("."))
   .aggregate(
     reactorsCommon.jvm,
@@ -331,4 +372,5 @@ lazy val root = Project("root", file("."))
     reactorsExtra,
     reactorsHttp,
     reactorsDebugger,
+    reactors.jvm,
   )
