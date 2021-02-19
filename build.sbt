@@ -7,6 +7,9 @@ val akkaVersion = "2.6.12"
 val scalaMeterVersion = "0.19"
 val json4sJacksonVersion = "3.4.2"
 
+// BrowserTest configuration is meant for browser-based tests.
+lazy val BrowserTest = config("browser") extend (Test)
+
 def scalaCheckArgument() =
   Tests.Argument(
       TestFrameworks.ScalaCheck,
@@ -246,6 +249,8 @@ lazy val reactorsExtra = project
 
 lazy val reactorsHttp = project
   .in(file("reactors-http"))
+  .configs(BrowserTest)
+  .settings(inConfig(BrowserTest)(Defaults.testTasks): _*)
   .settings(
     projectSettings("-http") ++ Seq(
       libraryDependencies ++= {
@@ -277,6 +282,8 @@ lazy val reactorsHttp = project
 
 lazy val reactorsDebugger = project
   .in(file("reactors-debugger"))
+  .configs(BrowserTest)
+  .settings(inConfig(BrowserTest)(Defaults.testTasks): _*)
   .settings(
     projectSettings("-debugger") ++ Seq(
       libraryDependencies ++= {
