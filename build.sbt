@@ -261,7 +261,7 @@ lazy val reactorsHttp = project
           "org.scala-lang" % "scala-compiler" % scalaVersion.value,
           "org.rapidoid" % "rapidoid-http-server" % rapidoidVersion,
           "commons-io" % "commons-io" % "2.4",
-          "org.apache.commons" % "commons-lang3" % "3.6",
+          "org.apache.commons" % "commons-text" % "1.9",
           "org.scala-lang.platform" %% "scalajson" % "1.0.0-M4",
           "org.json4s" %% "json4s-jackson" % json4sJacksonVersion,
           "org.seleniumhq.selenium" % "selenium-java" % "2.53.1" % "test",
