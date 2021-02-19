@@ -127,7 +127,7 @@ lazy val reactorsCore = crossProject(JVMPlatform)
   .jvmSettings(
     jvmProjectSettings("-core") ++ Seq(
       libraryDependencies ++= Seq(
-        "com.typesafe" % "config" % "1.2.1",
+        "com.typesafe" % "config" % "1.4.1",
         "com.typesafe.akka" %% "akka-actor" % akkaVersion % "test",
         "com.storm-enroute" %% "scalameter" % scalaMeterVersion % "test"
       )
