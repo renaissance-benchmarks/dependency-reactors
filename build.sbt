@@ -215,6 +215,31 @@ lazy val reactorsRemote = crossProject(JVMPlatform)
   )
 
 
+// JVM-only project reactorsExtra
+
+lazy val reactorsExtra = project
+  .in(file("reactors-extra"))
+  .settings(
+    projectSettings("-extra") ++ Seq(
+      libraryDependencies ++= {
+        Seq(
+          "org.scala-lang" % "scala-reflect" % scalaVersion.value,
+          "org.scalatest" %%% "scalatest" % scalaTestVersion % "test",
+          "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % "test",
+          "com.typesafe.akka" %% "akka-actor" % akkaVersion % "test"
+        )
+      }
+    ): _*
+  )
+  .settings(
+    jvmProjectSettings("-extra"): _*
+  )
+  .dependsOn(
+    reactorsCore.jvm % "compile->compile;test->test",
+    reactorsProtocol.jvm % "compile->compile;test->test"
+  )
+
+
 lazy val root = Project("root", file("."))
   .aggregate(
     reactorsCommon.jvm,
@@ -222,4 +247,5 @@ lazy val root = Project("root", file("."))
     reactorsContainer.jvm,
     reactorsProtocol.jvm,
     reactorsRemote.jvm,
+    reactorsExtra,
   )
