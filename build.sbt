@@ -187,10 +187,39 @@ lazy val reactorsProtocol = crossProject(JVMPlatform)
   )
 
 
+// Produces reactorsRemoteJVM
+
+lazy val reactorsRemote = crossProject(JVMPlatform)
+  .crossType(CrossType.Full)
+  .in(file("reactors-remote"))
+  .settings(
+    projectSettings("-remote") ++ Seq(
+      libraryDependencies ++= {
+        Seq(
+          "org.scalatest" %%% "scalatest" % scalaTestVersion % "test",
+          "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % "test",
+          "org.scala-lang" % "scala-reflect" % scalaVersion.value
+        )
+      },
+      unmanagedSourceDirectories in Compile +=
+        baseDirectory.value.getParentFile / "shared" / "src" / "main" / "scala",
+      unmanagedSourceDirectories in Test +=
+        baseDirectory.value.getParentFile / "shared" / "src" / "test" / "scala"
+    ): _*
+  )
+  .jvmSettings(
+    jvmProjectSettings("-remote"): _*
+  )
+  .dependsOn(
+    reactorsCore % "compile->compile;test->test"
+  )
+
+
 lazy val root = Project("root", file("."))
   .aggregate(
     reactorsCommon.jvm,
     reactorsCore.jvm,
     reactorsContainer.jvm,
-    reactorsProtocol.jvm
+    reactorsProtocol.jvm,
+    reactorsRemote.jvm,
   )
