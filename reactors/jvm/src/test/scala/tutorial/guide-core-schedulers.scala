@@ -33,6 +33,8 @@ import io.reactors._
 /*!end-code!*/
 /*!include-code Java:reactors-java-schedulers-import.html!*/
 import org.scalatest._
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.matchers.should.Matchers
 
 
 object SchedulersMockup {
@@ -71,7 +73,7 @@ class Logger extends Reactor[String] {
 /*!include-code Java:reactors-java-schedulers-logger.html!*/
 
 
-class Schedulers extends FunSuite with Matchers {
+class Schedulers extends AnyFunSuite with Matchers {
   /*!md
   Before starting, we need to create a reactor system,
   as we learned in the previous sections:
@@ -220,7 +222,7 @@ class LifecycleReactor extends Reactor[String] {
 /*!include-code Java:reactors-java-schedulers-lifecycle.html!*/
 
 
-class Lifecycle extends FunSuite with Matchers {
+class Lifecycle extends AnyFunSuite with Matchers {
   val system = new ReactorSystem("test-system")
 
   test("lifecycle throws an exception") {

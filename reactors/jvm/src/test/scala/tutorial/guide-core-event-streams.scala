@@ -66,10 +66,12 @@ import io.reactors._
 /*!end-code!*/
 /*!include-code Java:reactors-java-event-streams-import.html!*/
 import org.scalatest._
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.matchers.should.Matchers
 
 
 
-class EventStreams extends FunSuite with Matchers {
+class EventStreams extends AnyFunSuite with Matchers {
   /*!md
   So far, so good!
   Now, let's study the basic data-type that drives most computations in the Reactors.IO
