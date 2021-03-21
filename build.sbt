@@ -364,6 +364,9 @@ lazy val reactors = crossProject(JVMPlatform)
 
 
 lazy val root = Project("root", file("."))
+  .settings(
+    scalaVersion := reactorsScalaVersion,
+  )
   .aggregate(
     reactorsCommon.jvm,
     reactorsCore.jvm,
