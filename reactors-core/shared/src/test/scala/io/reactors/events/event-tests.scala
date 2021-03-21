@@ -33,7 +33,7 @@ class EventsSpec extends FunSuite {
     emitter.unreact()
 
     var done = false
-    emitter.onDone(done = true)
+    emitter.onDone({ done = true })
     assert(done)
   }
 
@@ -167,7 +167,7 @@ class EventsSpec extends FunSuite {
   test("onDone") {
     var done = false
     val emitter = new Events.Emitter[String]
-    val sub = emitter.onDone(done = true)
+    val sub = emitter.onDone({ done = true })
 
     emitter.react("bam")
     assert(!done)
@@ -179,7 +179,7 @@ class EventsSpec extends FunSuite {
   test("onDone unsubscribe") {
     var done = false
     val emitter = new Events.Emitter[String]
-    val sub = emitter.onDone(done = true)
+    val sub = emitter.onDone({ done = true })
 
     emitter.react("ok")
     assert(!done)
@@ -244,7 +244,7 @@ class EventsSpec extends FunSuite {
   test("ignoreExceptions") {
     var seen = false
     val emitter = new Events.Emitter[String]
-    val sub = emitter.ignoreExceptions.on(seen = true)
+    val sub = emitter.ignoreExceptions.on({ seen = true })
 
     emitter.except(new RuntimeException)
     assert(!seen)
@@ -308,7 +308,7 @@ class EventsSpec extends FunSuite {
     val tick = new Events.Emitter[Unit]
     val samples = tick.incremental[Int] {
       val state = emitter.toSignal(0)
-      (state.andThen(unsubscribed = true), obs => obs.react(state(), null))
+      (state.andThen({ unsubscribed = true }), obs => obs.react(state(), null))
     }
     samples.onEvent(seen += _)
     assert(seen == Seq())
@@ -363,7 +363,7 @@ class EventsSpec extends FunSuite {
     emitter.unreact()
 
     var done = false
-    signal.onDone(done = true)
+    signal.onDone({ done = true })
     assert(done)
     assert(!emitter.hasSubscriptions)
   }
@@ -426,7 +426,7 @@ class EventsSpec extends FunSuite {
     assert(!emitter.hasSubscriptions)
 
     var done = false
-    signal.onDone(done = true)
+    signal.onDone({ done = true })
     assert(done)
     assert(!emitter.hasSubscriptions)
   }
@@ -435,7 +435,7 @@ class EventsSpec extends FunSuite {
     val e0 = new TestEmitter[Int]
     val e1 = new TestEmitter[Int]
     var done = false
-    (e0.toCold(3) zip e1.toCold(7))(_ + _).onDone(done = true)
+    (e0.toCold(3) zip e1.toCold(7))(_ + _).onDone({ done = true })
 
     e0.react(1)
     e1.react(2)
@@ -519,7 +519,7 @@ class EventsSpec extends FunSuite {
     val emitter = new Events.Emitter[Int]
     val start = new Events.Emitter[Unit]
     val after = emitter.after(start)
-    after.on(seen = true)
+    after.on({ seen = true })
 
     emitter.react(7)
     assert(!seen)
@@ -534,7 +534,7 @@ class EventsSpec extends FunSuite {
     val emitter = new Events.Emitter[Int]
     val start = new Events.Emitter[Int]
     val after = emitter.after(start)
-    after.on(seen = true)
+    after.on({ seen = true })
 
     emitter.react(7)
     assert(!seen)
@@ -578,7 +578,7 @@ class EventsSpec extends FunSuite {
     val emitter = new Events.Emitter[Int]
     val go = new IVar[Boolean]
     val deferred = emitter.defer(go)
-    deferred.onEventOrDone(seen += _)(done = true)
+    deferred.onEventOrDone(seen += _)({ done = true })
 
     emitter.react(7)
     assert(!done)
@@ -601,7 +601,7 @@ class EventsSpec extends FunSuite {
     val emitter = new Events.Emitter[Int]
     val go = new IVar[Boolean]
     val deferred = emitter.defer(go)
-    deferred.onEventOrDone(seen += _)(done = true)
+    deferred.onEventOrDone(seen += _)({ done = true })
 
     emitter.react(7)
     assert(!done)
@@ -632,7 +632,7 @@ class EventsSpec extends FunSuite {
     val emitter = new Events.Emitter[Int]
     val seen = mutable.Buffer[Int]()
     var done = false
-    emitter.changed(0).onEventOrDone(seen += _)(done = true)
+    emitter.changed(0).onEventOrDone(seen += _)({ done = true })
 
     emitter.react(0)
     assert(seen == Nil)
@@ -670,7 +670,7 @@ class EventsSpec extends FunSuite {
     var seen = false
     val emitter = new Events.Emitter[String]
     val once = emitter.once
-    once.on(seen = true)
+    once.on({ seen = true })
 
     emitter.unreact()
     assert(!seen)
@@ -709,7 +709,7 @@ class EventsSpec extends FunSuite {
     var last = -1
     var done = false
     val emitter = new Events.Emitter[Int]
-    emitter.last.onEventOrDone(x => last = x)(done = true)
+    emitter.last.onEventOrDone(x => last = x)({ done = true })
 
     emitter.unreact()
     assert(last == -1)
@@ -719,7 +719,7 @@ class EventsSpec extends FunSuite {
   test("single") {
     var elem = -1
     var done = false
-    Events.single(7).onEventOrDone(elem = _)(done = true)
+    Events.single(7).onEventOrDone(elem = _)({ done = true })
     assert(elem == 7)
     assert(done)
   }
@@ -877,7 +877,7 @@ class EventsSpec extends FunSuite {
     val emitter = new Events.Emitter[String]
     var done = false
     emitter.take(2).onEvent(buffer += _)
-    emitter.take(2).onDone(done = true)
+    emitter.take(2).onDone({ done = true })
 
     emitter.react("one")
     assert(!done)
@@ -961,7 +961,7 @@ class EventsSpec extends FunSuite {
     val e1 = new Events.Emitter[String]
     val union = e0 union e1
     union.onEvent(buffer += _)
-    union.onDone(done = true)
+    union.onDone({ done = true })
 
     e0.react("bam")
     assert(buffer == Seq("bam"))
@@ -984,7 +984,7 @@ class EventsSpec extends FunSuite {
     val e1 = new Events.Emitter[Int]
     val concat = e0 concat e1
     concat.onEvent(buffer += _)
-    concat.onDone(done = true)
+    concat.onDone({ done = true })
 
     e0.react(3)
     assert(buffer == Seq(3))
@@ -1008,7 +1008,7 @@ class EventsSpec extends FunSuite {
     val e1 = new Events.Emitter[Int]
     val sync = (e0 sync e1)(_ + _)
     sync.onEvent(buffer += _)
-    sync.onDone(done = true)
+    sync.onDone({ done = true })
 
     e0.react(3)
     assert(buffer == Seq())
@@ -1033,7 +1033,7 @@ class EventsSpec extends FunSuite {
     val e2 = new Events.Emitter[Int]
     val sync = Events.sync(e0, e1, e2)
     sync.onEvent(buffer += _)
-    sync.onDone(done = true)
+    sync.onDone({ done = true })
 
     e0.react(3)
     assert(!done)
@@ -1067,7 +1067,7 @@ class EventsSpec extends FunSuite {
     val e = new Events.Emitter[Int]
     val reversed = e.reverse
     reversed.onEvent(seen += _)
-    reversed.onDone(done = true)
+    reversed.onDone({ done = true })
 
     e.react(11)
     assert(seen == Seq())
@@ -1091,7 +1091,7 @@ class EventsSpec extends FunSuite {
     val es = for (i <- 0 until 5) yield new Events.Emitter[Int]
     val union = emitter.union
     union.onEvent(buffer += _)
-    union.onDone(done = true)
+    union.onDone({ done = true })
 
     emitter.react(e0)
     assert(!done)
@@ -1120,7 +1120,7 @@ class EventsSpec extends FunSuite {
     val e6 = new Events.Emitter[Int]
     val concat = emitter.concat
     concat.onEvent(buffer += _)
-    concat.onDone(done = true)
+    concat.onDone({ done = true })
 
     emitter.react(e0)
     assert(!done)
@@ -1176,7 +1176,7 @@ class EventsSpec extends FunSuite {
     val b1 = mutable.Buffer[Int]()
     val f1 = emitter.first
     var done1 = false
-    f1.onEventOrDone(b1 += _)(done1 = true)
+    f1.onEventOrDone(b1 += _)({ done1 = true })
     emitter.react(e0)
     e0.react(111)
     assert(b1 == Seq(111))
@@ -1206,7 +1206,7 @@ class EventsSpec extends FunSuite {
     val b2 = mutable.Buffer[Int]()
     val f2 = emitter.first
     var done2 = false
-    f2.onEventOrDone(b2 += _)(done2 = true)
+    f2.onEventOrDone(b2 += _)({ done2 = true })
     emitter.react(e3)
     emitter.react(e4)
     e3.unreact()
@@ -1228,7 +1228,7 @@ class EventsSpec extends FunSuite {
     val b3 = mutable.Buffer[Int]()
     val f3 = emitter.first
     var done3 = false
-    f3.onEventOrDone(b3 += _)(done3 = true)
+    f3.onEventOrDone(b3 += _)({ done3 = true })
     emitter.react(e6)
     emitter.react(e7)
     emitter.react(e8)
@@ -1251,7 +1251,7 @@ class EventsSpec extends FunSuite {
     val b4 = mutable.Buffer[Int]()
     val f4 = earlyDoneEmitter.first
     var done4 = false
-    f4.onEventOrDone(b4 += _)(done4 = true)
+    f4.onEventOrDone(b4 += _)({ done4 = true })
     earlyDoneEmitter.react(e9)
     earlyDoneEmitter.react(e10)
     earlyDoneEmitter.unreact()
@@ -1268,7 +1268,7 @@ class EventsSpec extends FunSuite {
     val f = ivar.first
     val b = mutable.Buffer[Int]()
     var done = false
-    f.onEventOrDone(b += _)(done = true)
+    f.onEventOrDone(b += _)({ done = true })
     e.react(7)
     assert(b == Seq(7))
     assert(!done)
@@ -1281,7 +1281,7 @@ class EventsSpec extends FunSuite {
     val first = top.first
     val buffer = mutable.Buffer[Int]()
     var completed = false
-    first.onEventOrDone(buffer += _)(completed = true)
+    first.onEventOrDone(buffer += _)({ completed = true })
     assert(buffer == Seq(11))
     assert(completed)
   }
@@ -1318,7 +1318,7 @@ class EventsSpec extends FunSuite {
     assert(!emitter.hasSubscriptions)
     var last = 0
     var terminated = false
-    ivar.onEventOrDone(last = _)(terminated = true)
+    ivar.onEventOrDone({ last = _ })({ terminated = true })
     assert(last == 7)
     assert(terminated)
     assert(!emitter.hasSubscriptions)
@@ -1394,7 +1394,7 @@ class EventsSpec extends FunSuite {
     val sliding = emitter.sliding(3)
     val seen = mutable.Buffer[Conc.Queue[Int]]()
     var done = false
-    sliding.onEventOrDone(seen += _)(done = true)
+    sliding.onEventOrDone(seen += _)({ done = true })
     emitter.react(1)
     assert(seen.last.toArray.toSeq == Seq(1))
     emitter.react(2)
@@ -1412,7 +1412,7 @@ class EventsSpec extends FunSuite {
     val each = emitter.each(3)
     val seen = mutable.Buffer[Int]()
     var done = false
-    each.onEventOrDone(seen += _)(done = true)
+    each.onEventOrDone(seen += _)({ done = true })
     emitter.react(1)
     assert(seen == Seq())
     assert(!done)
@@ -1435,13 +1435,13 @@ class EventsSpec extends FunSuite {
     val repeat = emitter.repeat(3)()
     val seen = mutable.Buffer[Int]()
     var done = false
-    repeat.onEventOrDone(seen += _)(done = true)
+    repeat.onEventOrDone(seen += _)({ done = true })
     emitter.react(3)
     assert(seen == Seq(3, 3, 3))
     assert(!done)
     val emitterNeg = new Events.Emitter[Int]
     val repeatNeg = emitterNeg.repeat(3)(x => -x)
-    repeatNeg.onEventOrDone(seen += _)(done = true)
+    repeatNeg.onEventOrDone(seen += _)({ done = true })
     emitterNeg.react(7)
     assert(seen == Seq(3, 3, 3, 7, -7, -7))
     assert(!done)

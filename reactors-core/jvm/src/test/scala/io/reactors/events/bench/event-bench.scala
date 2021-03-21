@@ -173,7 +173,7 @@ class EventBoxingBench extends JBench.Forked[Long] {
 
     // takeWhile
     var takeWhileDone = false
-    emitter.takeWhile(_ < 1000).onDone(takeWhileDone = true)
+    emitter.takeWhile(_ < 1000).onDone({ takeWhileDone = true })
 
     // dropWhile
     var dropWhileCount = 0
