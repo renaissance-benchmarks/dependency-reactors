@@ -12,7 +12,8 @@ writeVersion := {
   out
 }
 
-val reactorsScalaVersion = "2.12.13"
+lazy val actorsReactors = RootProject(uri(".."))
+
 val scalaTestVersion = "3.1.4"
 val scalaCheckVersion = "1.13.4"
 val akkaVersion = "2.6.12"
@@ -36,7 +37,7 @@ def projectSettings(suffix: String) = {
   Seq(
     name := s"reactors$suffix",
     organization := "io.reactors",
-    scalaVersion := reactorsScalaVersion,
+    scalaVersion := (actorsReactors / scalaVersion).value,
     logBuffered := false,
     scalacOptions ++= Seq(
       "-deprecation", "-feature", "-no-specialization"
