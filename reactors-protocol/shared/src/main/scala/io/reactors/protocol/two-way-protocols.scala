@@ -88,6 +88,8 @@ trait TwoWayProtocols {
      *  (see `twoWayServer`).
      */
     def serveTwoWay()(implicit a: Arrayable[O]): TwoWay.Server[I, O] = {
+      import scala.language.postfixOps
+
       val links = connector.events map {
         case (inputChannel, reply) =>
           val system = Reactor.self.system

@@ -9,6 +9,8 @@ import scala.util.Random
 
 
 package object algo {
+  import scala.language.implicitConversions
+
   private[reactors] class EventsSamplingOps[@spec(Int, Long, Double) T](
     val events: Events[T]
   ) {

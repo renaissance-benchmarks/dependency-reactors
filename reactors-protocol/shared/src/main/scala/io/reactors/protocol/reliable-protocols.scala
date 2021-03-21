@@ -312,6 +312,8 @@ trait ReliableProtocols {
     def serveReliable(
       policy: Reliable.Policy = Reliable.Policy.reorder(128)
     ): Reliable.Server[T] = {
+      import scala.language.postfixOps
+
       val system = Reactor.self.system
       val twoWayServer = connector.serveTwoWay()
       val links = twoWayServer.links map {
@@ -347,6 +349,8 @@ trait ReliableProtocols {
     def openReliable(
       policy: Reliable.Policy = Reliable.Policy.reorder(128)
     ): IVar[Reliable[T]] = {
+      import scala.language.postfixOps
+
       val system = Reactor.self.system
       server.connect() map {
         case twoWay @ TwoWay(_, acks, _) =>

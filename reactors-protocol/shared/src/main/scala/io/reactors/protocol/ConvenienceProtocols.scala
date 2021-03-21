@@ -9,6 +9,8 @@ package protocol
 /** Contains various convenience operations.
  */
 trait ConvenienceProtocols {
+  import scala.language.implicitConversions
+
   /** Adds convenience methods for reactor systems.
    */
   implicit def reactorSystemOps(system: ReactorSystem): Convenience.ReactorSystemOps =
