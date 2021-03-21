@@ -8,8 +8,6 @@ import io.reactors.test._
 import org.scalacheck._
 import org.scalacheck.Gen.choose
 import org.scalacheck.Prop.forAllNoShrink
-import org.scalatest.FunSuite
-import org.scalatest.Matchers
 import scala.collection._
 import scala.util.Random
 

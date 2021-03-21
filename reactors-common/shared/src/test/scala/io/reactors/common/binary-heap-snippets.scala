@@ -3,7 +3,7 @@ package io.reactors.common
 
 
 import org.scalatest._
-import org.scalatest.Matchers
+import org.scalatest.matchers.should.Matchers
 
 
 

@@ -7,7 +7,6 @@ import io.reactors.test._
 import org.scalacheck._
 import org.scalacheck.Prop.forAllNoShrink
 import org.scalacheck.Gen.choose
-import org.scalatest.{FunSuite, Matchers}
 import scala.annotation.unchecked
 import scala.collection._
 import scala.concurrent.Await
@@ -16,6 +15,8 @@ import scala.concurrent.Future
 import scala.concurrent.Promise
 import scala.concurrent.duration._
 import scala.util.Success
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.matchers.should.Matchers
 
 
 
@@ -508,7 +509,7 @@ extends BaseJvmReactorSystemCheck("PiggybackSystem") {
 }
 
 
-class JvmReactorSystemTest extends FunSuite with Matchers {
+class JvmReactorSystemTest extends AnyFunSuite with Matchers {
   test("reactor should terminate on ctor exception") {
     val scheduler = new JvmScheduler.Dedicated.NewThread(true)
     val bundle = ReactorSystem.Bundle.default(scheduler)

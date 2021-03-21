@@ -20,6 +20,7 @@ import org.scalatest._
 import scala.collection._
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Promise
+import org.scalatest.funsuite.AsyncFunSuite
 
 
 

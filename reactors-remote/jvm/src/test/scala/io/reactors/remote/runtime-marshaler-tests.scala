@@ -8,12 +8,12 @@ import io.reactors.marshal.Marshalee
 import io.reactors.test._
 import org.scalacheck.Prop.forAllNoShrink
 import org.scalacheck.Properties
-import org.scalatest.FunSuite
 import scala.collection._
+import org.scalatest.funsuite.AnyFunSuite
 
 
 
-class RuntimeMarshalerTest extends FunSuite {
+class RuntimeMarshalerTest extends AnyFunSuite {
   test("marshal empty non-final class") {
     val buffer = DataBuffer.streaming(128)
     RuntimeMarshaler.marshal(new NonFinalEmpty, buffer)

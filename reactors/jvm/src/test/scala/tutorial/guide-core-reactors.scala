@@ -41,6 +41,8 @@ import org.scalatest._
 import scala.concurrent.Await
 import scala.concurrent.Promise
 import scala.concurrent.duration._
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.matchers.should.Matchers
 
 
 
@@ -48,7 +50,7 @@ import scala.concurrent.duration._
 To be able to create new reactors, we need a `ReactorSystem` object, which tracks
 reactors in a single machine.
 !*/
-class Reactors extends FunSuite with Matchers {
+class Reactors extends AnyFunSuite with Matchers {
 
   /*!begin-code!*/
   val system = new ReactorSystem("test-system")
@@ -166,7 +168,7 @@ class HelloReactor extends Reactor[String] {
 /*!include-code Java:reactors-java-reactors-template.html!*/
 
 
-class ReactorsTopLevel extends FunSuite with Matchers {
+class ReactorsTopLevel extends AnyFunSuite with Matchers {
   val system = new ReactorSystem("test-top-level")
 
   test("top-level reactor") {
@@ -306,7 +308,7 @@ class MapReactor[K, V] extends Reactor[Op[K, V]] {
 /*!include-code Java:reactors-java-reactors-map-reactor.html!*/
 
 
-class ReactorChannels extends FunSuite with Matchers {
+class ReactorChannels extends AnyFunSuite with Matchers {
   val system = new ReactorSystem("test-channels")
 
   test("channel creation") {

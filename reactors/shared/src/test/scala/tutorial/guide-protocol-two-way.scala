@@ -19,6 +19,7 @@ package tutorial
 import org.scalatest._
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Promise
+import org.scalatest.funsuite.AsyncFunSuite
 
 
 

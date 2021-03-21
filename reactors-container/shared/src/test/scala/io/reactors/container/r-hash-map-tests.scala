@@ -10,6 +10,8 @@ import org.scalacheck.Prop._
 import org.scalatest._
 import io.reactors.test._
 import scala.collection._
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 
 
@@ -67,7 +69,7 @@ class RHashMapCheck extends Properties("RHashMap") with ExtendedProperties {
 }
 
 
-class RHashMapSpec extends FlatSpec with Matchers {
+class RHashMapSpec extends AnyFlatSpec with Matchers {
 
   "A RHashMap" should "be empty" in {
     val table = new RHashMap[Long, String]

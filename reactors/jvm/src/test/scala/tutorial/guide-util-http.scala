@@ -21,6 +21,7 @@ import org.scalatest._
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Promise
 import scala.io.Source
+import org.scalatest.funsuite.AsyncFunSuite
 
 
 

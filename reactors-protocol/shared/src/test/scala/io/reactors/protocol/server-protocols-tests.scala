@@ -9,6 +9,7 @@ import org.scalatest.concurrent.AsyncTimeLimitedTests
 import scala.concurrent._
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
+import org.scalatest.funsuite.AsyncFunSuite
 
 
 

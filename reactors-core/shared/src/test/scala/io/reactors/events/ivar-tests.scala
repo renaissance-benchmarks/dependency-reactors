@@ -5,10 +5,12 @@ package events
 
 import scala.collection._
 import org.scalatest._
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.matchers.should.Matchers
 
 
 
-class IVarSpec extends FunSuite with Matchers {
+class IVarSpec extends AnyFunSuite with Matchers {
 
   test("be assigned") {
     val iv = new IVar[Int]

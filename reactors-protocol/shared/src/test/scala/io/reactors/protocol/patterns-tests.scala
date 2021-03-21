@@ -12,6 +12,7 @@ import scala.concurrent.Future
 import scala.concurrent.Promise
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
+import org.scalatest.funsuite.AsyncFunSuite
 
 
 

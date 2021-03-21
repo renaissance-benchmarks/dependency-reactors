@@ -6,6 +6,7 @@ import io.reactors._
 import org.scalatest._
 import scala.concurrent.Promise
 import scala.concurrent.ExecutionContext
+import org.scalatest.funsuite.AsyncFunSuite
 
 
 

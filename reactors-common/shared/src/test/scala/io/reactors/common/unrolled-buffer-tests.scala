@@ -7,13 +7,13 @@ import io.reactors.test._
 import org.scalacheck._
 import org.scalacheck.Prop.forAllNoShrink
 import org.scalacheck.Gen.choose
-import org.scalatest.FunSuite
-import org.scalatest.Matchers
 import scala.collection._
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.matchers.should.Matchers
 
 
 
-class UnrolledBufferTest extends FunSuite with Matchers {
+class UnrolledBufferTest extends AnyFunSuite with Matchers {
 
   test("enqueue and dequeue many elements") {
     val b = new UnrolledBuffer[String]()

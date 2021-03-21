@@ -9,16 +9,16 @@ import io.reactors.Reactor.ReactorThread
 import io.reactors.test.ExtendedProperties
 import org.scalacheck.Prop.forAllNoShrink
 import org.scalacheck.Properties
-import org.scalatest.FunSuite
 import scala.concurrent.Await
 import scala.concurrent.Promise
 import scala.concurrent.duration.Duration
 import scala.sys.process._
 import scala.util.Success
+import org.scalatest.funsuite.AnyFunSuite
 
 
 
-class TcpImplementationTests extends FunSuite {
+class TcpImplementationTests extends AnyFunSuite {
   test("local tcp connection established") {
     val proc = Seq(
       "java", "-cp", sys.props("java.class.path"),
@@ -75,7 +75,7 @@ object TcpImplementationTest {
 }
 
 
-class TcpRemoteTest extends FunSuite {
+class TcpRemoteTest extends AnyFunSuite {
   val system = ReactorSystem.default("test-system")
 
   test("data chunk pool reallocates the same chunk") {
