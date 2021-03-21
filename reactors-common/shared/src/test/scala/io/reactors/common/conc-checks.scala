@@ -481,6 +481,8 @@ object ConcChecks extends Properties("Conc") with ConcSnippets
     var simplestring: String = null
     val log = ConcUtils.bufferedLog(ConcUtils.printLog)
     try {
+      import scala.language.reflectiveCalls
+
       val normalized = conq.normalized
       val conq2 = ConcUtils.toConqueue(normalized, log)
       val conqseq = toSeq(conq)
