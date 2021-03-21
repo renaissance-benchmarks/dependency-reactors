@@ -402,6 +402,7 @@ with Matchers with AsyncTimeLimitedTests {
           assert(system.frames.forName("ephemo") == null)
           done.success(true)
         }
+      case _ => ???
     }
     done.future.onComplete(_ => system.shutdown())
     done.future.map(t => assert(t))
@@ -422,7 +423,9 @@ with Matchers with AsyncTimeLimitedTests {
         }
         ended.future.onComplete {
           case Success(true) => done.success(true)
+          case _ => ???
         }
+      case _ => ???
     }
     done.future.onComplete(_ => system.shutdown())
     done.future.map(t => assert(t))
@@ -487,6 +490,7 @@ with Matchers with AsyncTimeLimitedTests {
           assert(system.channels.get("awaitee#main") == None)
           done.success(true)
         }
+      case _ => ???
     }
     done.future.onComplete(_ => system.shutdown())
     done.future.map(t => assert(t))
