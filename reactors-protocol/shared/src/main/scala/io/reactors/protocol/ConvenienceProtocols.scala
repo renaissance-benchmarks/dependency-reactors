@@ -11,7 +11,7 @@ package protocol
 trait ConvenienceProtocols {
   /** Adds convenience methods for reactor systems.
    */
-  implicit def reactorSystemOps(system: ReactorSystem) =
+  implicit def reactorSystemOps(system: ReactorSystem): Convenience.ReactorSystemOps =
     new Convenience.ReactorSystemOps(system)
 }
 

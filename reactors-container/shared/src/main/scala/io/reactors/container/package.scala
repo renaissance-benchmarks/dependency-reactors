@@ -7,7 +7,7 @@ package io.reactors
 
 package object container {
 
-  implicit def events2ops[@spec(Int, Long, Double) T](self: Events[T]) =
+  implicit def events2ops[@spec(Int, Long, Double) T](self: Events[T]): EventsOps[T] =
     new EventsOps(self)
 
   class EventsOps[@spec(Int, Long, Double) T](val self: Events[T]) {

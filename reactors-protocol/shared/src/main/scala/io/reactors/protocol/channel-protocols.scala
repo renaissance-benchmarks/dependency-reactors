@@ -9,7 +9,7 @@ package protocol
 /** Utilities that manipulate and transform channels.
  */
 trait ChannelProtocols {
-  implicit def channelOps[@spec(Int, Long, Double) T: Arrayable](ch: Channel[T]) =
+  implicit def channelOps[@spec(Int, Long, Double) T: Arrayable](ch: Channel[T]): ChannelProtocols.ChannelOps[T] =
     new ChannelProtocols.ChannelOps(ch)
 }
 
