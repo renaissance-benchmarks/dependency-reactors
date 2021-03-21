@@ -4,7 +4,7 @@ package debugger
 
 
 import io.reactors.json._
-import org.apache.commons.lang3.StringEscapeUtils
+import org.apache.commons.text.StringEscapeUtils
 import scala.concurrent.Future
 import scalajson.ast._
 
