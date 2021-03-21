@@ -69,6 +69,7 @@ class UdpRemoteTest extends FunSuite with Matchers {
       server.join(9000)
 
       // check that server completed normally
+      import scala.language.reflectiveCalls
       assert(server.success)
     } finally {
       system.shutdown()
