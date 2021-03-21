@@ -9,6 +9,8 @@ package protocol
 /** Utilities that manipulate and transform channels.
  */
 trait ChannelProtocols {
+  import scala.language.implicitConversions
+
   implicit def channelOps[@spec(Int, Long, Double) T: Arrayable](ch: Channel[T]): ChannelProtocols.ChannelOps[T] =
     new ChannelProtocols.ChannelOps(ch)
 }
