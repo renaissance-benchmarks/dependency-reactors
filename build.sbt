@@ -352,20 +352,3 @@ lazy val reactors = crossProject(JVMPlatform)
     reactorsRemote % "compile->compile;test->test",
     reactorsProtocol % "compile->compile;test->test"
   )
-
-
-lazy val root = Project("root", file("."))
-  .settings(
-    scalaVersion := reactorsScalaVersion,
-  )
-  .aggregate(
-    reactorsCommon.jvm,
-    reactorsCore.jvm,
-    reactorsContainer.jvm,
-    reactorsProtocol.jvm,
-    reactorsRemote.jvm,
-    reactorsExtra,
-    reactorsHttp,
-    reactorsDebugger,
-    reactors.jvm,
-  )
