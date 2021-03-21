@@ -362,6 +362,8 @@ object RHashMap {
     @spec(Int, Long, Double) K,
     V >: Null <: AnyRef
   ](a: Arrayable[K]): Can[K, V] = {
+    import scala.language.existentials
+
     val cls = a.newRawArray(0).getClass
     val elemcls = cls.getComponentType
     val can = {
