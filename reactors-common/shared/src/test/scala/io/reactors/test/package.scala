@@ -109,7 +109,8 @@ package object test {
         val servernum = 44
         val xvfbCmd = Seq(
           "xvfb-run", "--listen-tcp", "--server-num", s"$servernum",
-          "--auth-file", s"${sys.env("HOME")}/.Xauthority",
+          // The --auth-file option seems to be broken, use -f instead.
+          "-f", s"${sys.env("HOME")}/.Xauthority",
           "-s", s"-screen 0 ${res}x16",
           "java", "-cp", classpath, mainClass)
         val xvfb = Process(xvfbCmd, cwd).run()
