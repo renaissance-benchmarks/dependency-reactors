@@ -1,18 +1,7 @@
 import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
 
-enablePlugins(GitVersioning)
+lazy val actorsReactors = RootProject(uri(".."))
 
-git.useGitDescribe := true
-
-lazy val writeVersion = taskKey[File]("Writes project version into version.sbt")
-
-writeVersion := {
-  val out = file("version.sbt")
-  IO.write(out, "version := "+'"'+ version.value +'"')
-  out
-}
-
-val reactorsScalaVersion = "2.12.13"
 val scalaTestVersion = "3.1.4"
 val scalaCheckVersion = "1.13.4"
 val akkaVersion = "2.6.12"
@@ -36,7 +25,7 @@ def projectSettings(suffix: String) = {
   Seq(
     name := s"reactors$suffix",
     organization := "io.reactors",
-    scalaVersion := reactorsScalaVersion,
+    scalaVersion := (actorsReactors / scalaVersion).value,
     logBuffered := false,
     scalacOptions ++= Seq(
       "-deprecation", "-feature", "-no-specialization"
@@ -351,21 +340,4 @@ lazy val reactors = crossProject(JVMPlatform)
     reactorsContainer % "compile->compile;test->test",
     reactorsRemote % "compile->compile;test->test",
     reactorsProtocol % "compile->compile;test->test"
-  )
-
-
-lazy val root = Project("root", file("."))
-  .settings(
-    scalaVersion := reactorsScalaVersion,
-  )
-  .aggregate(
-    reactorsCommon.jvm,
-    reactorsCore.jvm,
-    reactorsContainer.jvm,
-    reactorsProtocol.jvm,
-    reactorsRemote.jvm,
-    reactorsExtra,
-    reactorsHttp,
-    reactorsDebugger,
-    reactors.jvm,
   )
