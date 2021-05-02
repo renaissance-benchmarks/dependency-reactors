@@ -1,17 +1,5 @@
 import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
 
-enablePlugins(GitVersioning)
-
-git.useGitDescribe := true
-
-lazy val writeVersion = taskKey[File]("Writes project version into version.sbt")
-
-writeVersion := {
-  val out = file("version.sbt")
-  IO.write(out, "version := "+'"'+ version.value +'"')
-  out
-}
-
 lazy val actorsReactors = RootProject(uri(".."))
 
 val scalaTestVersion = "3.1.4"
